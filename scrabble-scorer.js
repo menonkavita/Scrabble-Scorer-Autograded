@@ -40,25 +40,7 @@ function initialPrompt() {
    return userWord;
 };
 
-// 2. Examine the table for the information to store in name and description. The scorerFunction for each object should be the 
-// name of one of the three scoring algorithms already defined.
 
-let simpleObject = {
-   'name' : 'Simple Score',
-   'description' : 'Each letter is worth 1 point.', 
-   'scorerFunction' : function(strWord1){return simpleScorer(strWord1)}
-};
-let vowelObject = {
-   'name' : 'Bonus Vowels Score',
-   'description' : 'Vowels are 3 pts, consonants are 1 pt.', 
-   'scorerFunction' : function (strWord2){return vowelBonusScorer(strWord2)}
-};
-let scrabbleObject = {
-   'name' : 'Scrabble Score',
-   'description' : 'The traditional scoring algorithm.', 
-   //'scorerFunction' : function(strWord3){return scrabbleScorer(strWord3)} 
-   'scorerFunction' : function(strWord3){return oldScrabbleScorer(strWord3)}        // To be used in Task 4 :scrabbleScorer(strWord3)} - ScrabbleScorer ()
-};
 
 
 // Task 4: 2. Locate the newPointStructure object in the starter code and set it equal to transform(oldPointStructure).
@@ -110,30 +92,43 @@ let vowelBonusScorer = function(strVowelWord){
       You’ll want to write scrabbleScorer() to use newPointStructure and return a cumulative score for the whole word entered.
 */
 let scrabbleScorer = function(strScrabbleWord){
-   
-   //let strScrabbleScorer = oldScrabbleScorer(strScrabbleWord);    // getting converted to Uppercase() in oldScrabbleScorer()
-
-   let numNewScrabbleScorer = 0;   // Replacing OldPOintStructure with newPointStructure obj.
-   let counter = 0; // ------ to be deleted ------
-
+   let numNewScrabbleScorer = 0;   
    strScrabbleWord = strScrabbleWord.toLowerCase()
 
-   for (let i = 0; i < strScrabbleWord.length; i++) {
+   for (let i = 0; i < strScrabbleWord.length; i++) { 
       for(items in newPointStructure){
-         counter++;
-         //console.log(`i=${i} counter=${counter} \nIn NewPointStructure -----  Key: ${items}    Value: ${newPointStructure[items]}`)
-
+      
          if (items.includes(strScrabbleWord[i])) {
             numNewScrabbleScorer += Number(newPointStructure[items])   
-            //letterScore += Number(objNewScorer[newItem]);
+            break;
          }
       }
    }  
-
-   console.log("Hello from scrabbleScorer() ")
-
    return numNewScrabbleScorer;
-   //return strScrabbleScorer;
+};
+
+// 2. Examine the table for the information to store in name and description. The scorerFunction for each object should be the 
+// name of one of the three scoring algorithms already defined.
+
+let simpleObject = {
+   'name' : 'Simple Score',
+   'description' : 'Each letter is worth 1 point.', 
+   'scorerFunction' : simpleScorer
+   //'scorerFunction' : function(strWord1){return simpleScorer(strWord1)}
+};
+let vowelObject = {
+   'name' : 'Bonus Vowels Score',
+   'description' : 'Vowels are 3 pts, consonants are 1 pt.', 
+   'scorerFunction' : vowelBonusScorer
+   //'scorerFunction' : function (strWord2){return vowelBonusScorer(strWord2)}
+};
+let scrabbleObject = {
+   'name' : 'Scrabble Score',
+   'description' : 'The traditional scoring algorithm.', 
+   'scorerFunction' : scrabbleScorer                                          // To be used in Task 4 :scrabbleScorer(strWord3)} - ScrabbleScorer ()
+   
+   //'scorerFunction' : oldScrabbleScorer(str = "")                              // oldScrabbleScorer()
+   //'scorerFunction' : function(strWord3){return oldScrabbleScorer(strWord3)}
 };
 
 // 1. Finish writing the scoringAlgorithms array. It should be populated with three objects, 
@@ -176,7 +171,7 @@ Enter 0, 1, or 2: `));
          scoringObject = scoringAlgorithms[1];
       }
       else if(numUserChoice === 2){
-         scoringAlgorithms[2].scorerFunction = scrabbleScorer;
+         //scoringAlgorithms[2].scorerFunction = scrabbleScorer;        // Changing scoring() dynamically. But fails npm test. So hardcoded scoring() into scrabble object.
          scoringObject = scoringAlgorithms[2];
       }
 
@@ -194,15 +189,6 @@ replace the oldScrabbleScorer() function in scoringAlgorithms with this new func
 
 function transform(objOldPointStructure) {
   
-   /* ------- Tester Code from Textbook  ------- 
-   console.log("Letters with score '4':", oldPointStructure[4]);
-   console.log("3rd letter within the key '4' array:", oldPointStructure[4][2]);
-
-   let letters = oldPointStructure[8];
-   console.log("Letters with score '8':", letters);
-   console.log("2nd letter within the key '8' array:", letters[1]);
-   */  
-   
    let objNewPointStructure = {};
    let i = 0;
 
