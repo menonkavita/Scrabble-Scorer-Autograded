@@ -52,13 +52,19 @@ let newPointStructure = transform(oldPointStructure);
 // Each letter within the word is worth 1 point.
 
 let simpleScorer = function(strSimpleWord){
-
-   let numSimpleScore =0;
+   let numSimpleScore = 0;
    strSimpleWord = strSimpleWord.toUpperCase();
 
    for(let i=0; i<strSimpleWord.length; i++){
-      numSimpleScore += 1;
+
+      if(strSimpleWord[i] === " "){
+         // BONUS MISSION (2): Add no points (Do nothing) if space/blank tile is found
+      }
+      else{
+         numSimpleScore += 1;
+      }
    }
+
    return numSimpleScore;
 };
 
@@ -67,19 +73,22 @@ let simpleScorer = function(strSimpleWord){
 // Each vowel within the word is worth 3 points, and each consonant is worth 1 point.
 
 let vowelBonusScorer = function(strVowelWord){
-
    let numVowelScore = 0;
    strVowelWord = strVowelWord.toUpperCase()
 
    for(let j=0; j < strVowelWord.length; j++){
       if(strVowelWord[j] === 'A' || strVowelWord[j] === 'E' || strVowelWord[j] === 'I' || strVowelWord[j] === 'O' || strVowelWord[j] === 'U'){
          numVowelScore += 3;
-      
+
+      }
+      else if(strVowelWord[j] === " "){
+         // BONUS MISSION (2): Add no points (Do nothing) if space/blank tile is found. 
       }
       else{
          numVowelScore += 1;   
       }
    } // end for
+  
    return numVowelScore;
 };
 
@@ -194,7 +203,6 @@ function transform(objOldPointStructure) {
       }
    }
    
-   //console.log("Value in objNewPointStructure", objNewPointStructure)
    return objNewPointStructure;
 };
 
