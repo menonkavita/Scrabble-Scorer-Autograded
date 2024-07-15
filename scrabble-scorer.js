@@ -32,7 +32,7 @@ function oldScrabbleScorer(word) {
 
 function initialPrompt() {
    //console.log("Let's play some scrabble! Enter a word:");
-   //console.log(`${oldScrabbleScorer(userWord)}`)                              // Came with starter code (modified by K) to demo how scoring function works.
+   //console.log(`${oldScrabbleScorer(userWord)}`)                              // Came with starter code (modified by K) to demo Task 1 how scoring function works.
 
    console.log("Let's play some scrabble!\n");
    let userWord = input.question("Enter the word to score: ")
@@ -125,10 +125,8 @@ let vowelObject = {
 let scrabbleObject = {
    'name' : 'Scrabble Score',
    'description' : 'The traditional scoring algorithm.', 
-   'scorerFunction' : scrabbleScorer                                          // To be used in Task 4 :scrabbleScorer(strWord3)} - ScrabbleScorer ()
-   
-   //'scorerFunction' : oldScrabbleScorer(str = "")                              // oldScrabbleScorer()
-   //'scorerFunction' : function(strWord3){return oldScrabbleScorer(strWord3)}
+   'scorerFunction' : scrabbleScorer                                          
+   //'scorerFunction' : function(strWord3){return oldScrabbleScorer(strWord3)}                // oldScrabbleScorer()
 };
 
 // 1. Finish writing the scoringAlgorithms array. It should be populated with three objects, 
@@ -146,13 +144,7 @@ const scoringAlgorithms = [simpleObject, vowelObject, scrabbleObject];
 */
 
 function scorerPrompt() {
-      /* Simple scoring
-      console.log("algorithm name: ", scoringAlgorithms[0].name);
-      console.log("scorerFunction result: ", scoringAlgorithms[0].scorerFunction("JavaScript"));
-      Testing out scorerPrompt(): refer textbook.
-      */
-
-      let numUserChoice = Number(input.question(`Which scoring algorithm would you like to use?
+   let numUserChoice = Number(input.question(`Which scoring algorithm would you like to use?
    0 - Simple: One point per character
    1 - Vowel Bonus: Vowels are worth 3 points
    2 - Scrabble: Uses scrabble point system
@@ -160,7 +152,7 @@ Enter 0, 1, or 2: `));
 
       // BONUS MISSION (1): Validating user input.
       while(!(numUserChoice === 0 || numUserChoice === 1 || numUserChoice === 2)){
-         numUserChoice = Number(input.question(`Invalid input. Pick a number between 0, 1, or 2 to select a scoring algorithm. `));
+         numUserChoice = Number(input.question(`\nInvalid input. Pick a number between 0, 1, or 2 to select a scoring algorithm. `));
       }
 
       let scoringObject = [];
@@ -172,6 +164,7 @@ Enter 0, 1, or 2: `));
       }
       else if(numUserChoice === 2){
          //scoringAlgorithms[2].scorerFunction = scrabbleScorer;        // Changing scoring() dynamically. But fails npm test. So hardcoded scoring() into scrabble object.
+         newPointStructure[' '] = 0;                                    // BONUS MISSION (2): checking for spaces & assigning 0 to it.
          scoringObject = scoringAlgorithms[2];
       }
 
@@ -195,14 +188,10 @@ function transform(objOldPointStructure) {
    for(item in objOldPointStructure){
       let strLetters = objOldPointStructure[item];
    
-      //console.log(`Keys in oldPointStructure are : ${item} \nValue in oldPointStructure is ${objOldPointStructure[item]}, 
-      //Value in strLetters is ${strLetters} `)
-
       for (i=0; i < strLetters.length; i++){
          strLetters[i] = strLetters[i].toLowerCase();
          objNewPointStructure[strLetters[i]] = Number(item);
       }
-      //objNewPointStructure[" "] = Number("0");                          // BONUS MISSION (2): checking for spaces & assigning 0 to it.
    }
    
    //console.log("Value in objNewPointStructure", objNewPointStructure)
@@ -212,9 +201,19 @@ function transform(objOldPointStructure) {
 
 function runProgram() {
    let firstWord = initialPrompt();
-   
    let objToBeScored = scorerPrompt()
-   console.log(`Score for ${firstWord.toUpperCase()} is ${objToBeScored.scorerFunction(firstWord)}`)
+   console.log(`\nScore for '${firstWord.toUpperCase()}' is ${objToBeScored.scorerFunction(firstWord)}`)
+
+   let userChoice = input.question("\nWould you like to score another word? Enter 'Y' to continue: ").toUpperCase();
+   while(userChoice === "Y"){                                                      // Carrie's BONUS MISSION
+      firstWord = initialPrompt();
+   
+      objToBeScored = scorerPrompt()
+      console.log(`\nScore for '${firstWord.toUpperCase()}' is ${objToBeScored.scorerFunction(firstWord)}`)
+
+      userChoice = input.question("\nWould you like to score another word? Enter 'Y' to continue: ").toUpperCase();
+   }
+   console.log("Hope you enjoyed playing! Bye Bye! ")
 }
 
 
